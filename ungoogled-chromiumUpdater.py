@@ -4,15 +4,15 @@ from bs4 import BeautifulSoup
 from clint.textui import progress
 from zipfile import ZipFile
 import shutil
-from pyfiglet import Figlet
+import pyfiglet
+import pyfiglet.fonts
 from readchar import readchar
 
-PATH = os.path.dirname(os.path.realpath(__file__))
+PATH = os.path.abspath(".")
 BASE_URL = "https://ungoogled-software.github.io/ungoogled-chromium-binaries/releases/windows/64bit/"
 TMP_PATH = os.path.join(PATH, "tmp")
 APP_PATH = os.path.expanduser('~') + "\\AppData\\Local\\Chromium\\Application\\"
 WIDEVINECDM_PATH = os.path.join(os.path.join(PATH, "resources"), "WidevineCdm")
-
 
 def getVersion():
     AppPath = os.path.expanduser('~') + "/AppData/Local/Chromium/Application/"
@@ -61,18 +61,17 @@ def updateFiles(Version, latestVersion, ArchiveName):
     ArchivePath = os.path.join(TMP_PATH, ArchiveName)
     ArchiveDestinationPath = os.path.join(APP_PATH, latestVersion.split("-")[0])
     WidevineCdmDestinationPath = os.path.join(ArchiveDestinationPath, "WidevineCdm")
-    
+     
     ZipArchive = ZipFile(ArchivePath)
     ZipArchive.extractall(path=TMP_PATH)
 
-    shutil.rmtree(VersionPath)
+    shutil.rmtree(VersionPath) 
     os.rename(os.path.join(TMP_PATH, os.listdir(TMP_PATH)[0]), ArchiveDestinationPath)
     shutil.copytree(WIDEVINECDM_PATH, WidevineCdmDestinationPath)
 
 
-f = Figlet(font='slant')
+f = pyfiglet.Figlet(font='slant')
 print(f.renderText('Ungoogled Chromium Autoupdater'))
-
 
 Version = getVersion()
 latestVersion = getLatestVersion()

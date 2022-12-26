@@ -13,4 +13,4 @@ with open('config.ini', 'w') as config:
     configur.write(config)
 
 if (time() - LastCheckedForUpdate) > UpdateInvervall:
-    os.system("start python updater.py")
+    os.system(r"start .\ungoogled-chromiumUpdater.exe")
